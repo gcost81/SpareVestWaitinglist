@@ -13,9 +13,9 @@ export function PhoneMockup() {
   const phoneRotate = useTransform(scrollYProgress, [0, 0.5, 1], [8, 0, -8]);
 
   const activities = [
-    { icon: '☕', name: 'Starbucks Coffee', category: 'FOOD & DRINK', amount: 'CHF 8.45', roundup: '+1.55' },
+    { icon: '☕', name: 'Starbucks Coffee', category: 'FOOD & DRINK', amount: 'CHF 8.45', roundup: '+0.55' },
     { icon: '🚗', name: 'Uber Ride', category: 'TRANSPORT', amount: 'CHF 14.20', roundup: '+0.80' },
-    { icon: '🛒', name: 'Migros Super', category: 'SHOPPING', amount: 'CHF 127.30', roundup: '+2.66' },
+    { icon: '🛒', name: 'Migros Super', category: 'SHOPPING', amount: 'CHF 127.30', roundup: '+0.70' },
     { icon: '⛽', name: 'Shell Gas', category: 'TRANSPORT', amount: 'CHF 89.23', roundup: '+0.77' },
   ];
 

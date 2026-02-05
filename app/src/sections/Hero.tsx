@@ -101,7 +101,7 @@ export function Hero() {
                   </span>
                 </h1>
                 <p className="text-lg lg:text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-lg">
-                  Be among the first Swiss investors. Founding member access • Limited to first 500.
+                  Be among the first Swiss investors to build wealth on autopilot. Waitinglist members receive updates and exclusive early benefits.
                 </p>
               </motion.div>
 

@@ -101,8 +101,9 @@ export function Hero() {
                   </span>
                 </h1>
                 <p className="text-lg lg:text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-lg">
-                  Be among the first Swiss investors to build wealth on autopilot. Waitinglist members receive updates and exclusive early benefits.
-                </p>
+                  Be among the first Swiss investors to build wealth on autopilot.
+                  <br />
+                  <span className="font-bold">Waitinglist members receive updates and exclusive early benefits.</span> </p>
               </motion.div>
 
               {/* Social Proof Mini */}

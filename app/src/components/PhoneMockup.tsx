@@ -129,7 +129,7 @@ export function PhoneMockup() {
                       </div>
                       <div className="text-right">
                         <p className="text-sm font-semibold text-slate-900">{activity.amount}</p>
-                        <p className="text-xs text-emerald-600 font-medium">+{activity.roundup}</p>
+                        <p className="text-xs text-emerald-600 font-medium">{activity.roundup}</p>
                       </div>
                     </div>
                   ))}

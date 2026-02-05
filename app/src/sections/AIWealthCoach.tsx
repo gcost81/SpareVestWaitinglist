@@ -16,9 +16,9 @@ export function AIWealthCoach() {
 
   const conversation = [
     { type: 'user' as const, message: 'What if I invested 5 CHF daily?' },
-    { type: 'ai' as const, message: "In 5 years: CHF 11'247. In 10 years: CHF 28'934." },
+    { type: 'ai' as const, message: "Assuming a 7.5% annual return tracking the S&P 500 index: In 5 years: CHF 10,600. In 10 years: CHF 25'800." },
     { type: 'user' as const, message: 'How much could I save on coffee?' },
-    { type: 'ai' as const, message: "Skip 2 coffees/week = CHF 416/year invested = CHF 5'840 in 10 years." },
+    { type: 'ai' as const, message: "Assuming a 7.5% annual return in the S&P 500 index: Skip 2 coffees/week = CHF 416/year invested = CHF 5'885 in 10 years." },
   ];
 
   useEffect(() => {

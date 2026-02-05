@@ -48,7 +48,7 @@ export function Hero() {
             <img 
               src="/logo.png" 
               alt="SpareVest" 
-              className="h-12 w-auto object-contain"
+              className="h-20 w-auto object-contain"
             />
           </a>
           <div className="hidden md:flex items-center gap-8">

@@ -1,7 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { Coins, Shield, TrendingUp, ArrowRight, Check } from 'lucide-react';
-import { Modal } from '@/components/Modal';
+import { Modal } from '../components/Modal';
 
 const features = [
   {

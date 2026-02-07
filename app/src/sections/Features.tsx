@@ -102,7 +102,6 @@ export function Features() {
             </span>
             <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6">
               Simple. Smart.{' '}
-              <p className="text-red-600 font-bold text-2xl">MODAL TEST - DELETE ME</p>
               <span className="bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
                 Swiss.
               </span>

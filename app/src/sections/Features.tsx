@@ -143,9 +143,9 @@ export function Features() {
 
                 {/* Learn More Link */}
                 <button
-                  onClick={() => openModal(feature.modalId)}
-                  className="flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
-                >
+  onClick={() => alert('Button clicked! Modal ID: ' + feature.modalId)}
+  className="flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+>
                   <span>Learn more</span>
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </button>

@@ -65,14 +65,13 @@ const modalContent = {
   },
 };
 
-// Modal Component - Fixed Version
+// FIXED Modal Component - Portal is now inside AnimatePresence
 function Modal({ isOpen, onClose, title, children }: { 
   isOpen: boolean; 
   onClose: () => void; 
   title: string; 
   children: React.ReactNode 
 }) {
-  // Lock body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -86,72 +85,64 @@ function Modal({ isOpen, onClose, title, children }: {
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
-      <Dialog.Portal>
-        <AnimatePresence>
-          {isOpen && (
-            <>
-              {/* Backdrop with blur */}
-              <Dialog.Overlay asChild>
+      <AnimatePresence>
+        {isOpen && (
+          <Dialog.Portal forceMount>
+            {/* Backdrop with blur */}
+            <Dialog.Overlay asChild forceMount>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+                onClick={onClose}
+              />
+            </Dialog.Overlay>
+
+            {/* Modal Content */}
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 pointer-events-none">
+              <Dialog.Content asChild forceMount>
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
-                  onClick={onClose}
-                />
-              </Dialog.Overlay>
-
-              {/* Modal Content */}
-              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 pointer-events-none">
-                <Dialog.Content asChild>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                    transition={{ 
-                      duration: 0.3, 
-                      ease: [0.25, 0.46, 0.45, 0.94] 
-                    }}
-                    className="pointer-events-auto w-full max-w-[600px] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col relative"
+                  initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                  transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  className="pointer-events-auto w-full max-w-[600px] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col relative"
+                >
+                  {/* Close button */}
+                  <button
+                    onClick={onClose}
+                    className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors z-10"
                   >
-                    {/* Close button */}
-                    <button
-                      onClick={onClose}
-                      className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors z-10"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
+                    <X className="w-5 h-5" />
+                  </button>
 
-                    {/* Scrollable content */}
-                    <div className="overflow-y-auto p-6 sm:p-8">
-                      {/* Title */}
-                      <Dialog.Title className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-6 pr-8">
-                        {title}
-                      </Dialog.Title>
+                  {/* Scrollable content */}
+                  <div className="overflow-y-auto p-6 sm:p-8">
+                    <Dialog.Title className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-6 pr-8">
+                      {title}
+                    </Dialog.Title>
 
-                      {/* Content */}
-                      <div className="max-w-none">
-                        {children}
-                      </div>
-
-                      {/* Close button at bottom */}
-                      <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
-                        <button
-                          onClick={onClose}
-                          className="w-full sm:w-auto px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors flex items-center justify-center gap-2"
-                        >
-                          <span>Got it</span>
-                        </button>
-                      </div>
+                    <div className="max-w-none">
+                      {children}
                     </div>
-                  </motion.div>
-                </Dialog.Content>
-              </div>
-            </>
-          )}
-        </AnimatePresence>
-      </Dialog.Portal>
+
+                    <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
+                      <button
+                        onClick={onClose}
+                        className="w-full sm:w-auto px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors flex items-center justify-center gap-2"
+                      >
+                        <span>Got it</span>
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              </Dialog.Content>
+            </div>
+          </Dialog.Portal>
+        )}
+      </AnimatePresence>
     </Dialog.Root>
   );
 }
@@ -173,7 +164,6 @@ export function Features() {
 
   return (
     <section id="features" ref={ref} className="relative py-24 lg:py-32 overflow-hidden bg-slate-50 dark:bg-slate-800/50 transition-colors duration-300">
-      {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl" />
@@ -181,7 +171,6 @@ export function Features() {
 
       <div className="relative z-10 px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -202,7 +191,6 @@ export function Features() {
             </p>
           </motion.div>
 
-          {/* Features Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {features.map((feature, index) => (
               <motion.div
@@ -217,14 +205,12 @@ export function Features() {
                 whileHover={{ y: -4 }}
                 className={`group relative p-8 rounded-2xl ${feature.bgColor} dark:bg-slate-800 border ${feature.borderColor} dark:border-slate-700 transition-all duration-300 ease-out hover:shadow-xl hover:shadow-slate-900/5 dark:hover:shadow-slate-900/20`}
               >
-                {/* Icon */}
                 <div
                   className={`w-14 h-14 rounded-xl bg-gradient-to-r ${feature.color} flex items-center justify-center mb-6 shadow-lg transition-transform duration-300 group-hover:scale-110`}
                 >
                   <feature.icon className="w-7 h-7 text-white" />
                 </div>
 
-                {/* Content */}
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
                   {feature.title}
                 </h3>
@@ -232,7 +218,6 @@ export function Features() {
                   {feature.description}
                 </p>
 
-                {/* Learn More Link - Fixed click handler */}
                 <button
                   onClick={() => openModal(feature.modalId)}
                   className="flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors cursor-pointer"
@@ -241,7 +226,6 @@ export function Features() {
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </button>
 
-                {/* Hover Glow */}
                 <div
                   className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
                 />
@@ -249,7 +233,6 @@ export function Features() {
             ))}
           </div>
 
-          {/* Bottom CTA */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -269,7 +252,6 @@ export function Features() {
         </div>
       </div>
 
-      {/* Modal - Rendered outside the grid but inside the section */}
       <Modal
         isOpen={!!activeModal}
         onClose={closeModal}

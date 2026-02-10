@@ -81,7 +81,6 @@ export function Features() {
 
   return (
     <section id="features" ref={ref} className="relative py-24 lg:py-32 overflow-hidden bg-slate-50 dark:bg-slate-800/50 transition-colors duration-300">
-      {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl" />
@@ -89,7 +88,6 @@ export function Features() {
 
       <div className="relative z-10 px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -110,7 +108,6 @@ export function Features() {
             </p>
           </motion.div>
 
-          {/* Features Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {features.map((feature, index) => (
               <motion.div
@@ -125,14 +122,12 @@ export function Features() {
                 whileHover={{ y: -4 }}
                 className={`group relative p-8 rounded-2xl ${feature.bgColor} dark:bg-slate-800 border ${feature.borderColor} dark:border-slate-700 transition-all duration-300 ease-out hover:shadow-xl hover:shadow-slate-900/5 dark:hover:shadow-slate-900/20`}
               >
-                {/* Icon */}
                 <div
                   className={`w-14 h-14 rounded-xl bg-gradient-to-r ${feature.color} flex items-center justify-center mb-6 shadow-lg transition-transform duration-300 group-hover:scale-110`}
                 >
                   <feature.icon className="w-7 h-7 text-white" />
                 </div>
 
-                {/* Content */}
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
                   {feature.title}
                 </h3>
@@ -140,7 +135,6 @@ export function Features() {
                   {feature.description}
                 </p>
 
-                {/* Learn More Button */}
                 <button
                   type="button"
                   onClick={() => openModal(feature.modalId)}
@@ -150,7 +144,6 @@ export function Features() {
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </button>
 
-                {/* Hover Glow */}
                 <div
                   className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
                 />
@@ -158,7 +151,6 @@ export function Features() {
             ))}
           </div>
 
-          {/* Bottom CTA */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -178,22 +170,17 @@ export function Features() {
         </div>
       </div>
 
-      {/* Modal */}
       {activeModal && activeContent && (
         <>
-          {/* Backdrop */}
           <div 
             className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
             onClick={closeModal}
           />
-          
-          {/* Modal Content */}
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 pointer-events-none">
             <div 
               className="pointer-events-auto w-full max-w-[600px] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col relative"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close button */}
               <button
                 onClick={closeModal}
                 className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors z-10"
@@ -201,7 +188,6 @@ export function Features() {
                 <X className="w-5 h-5" />
               </button>
 
-              {/* Scrollable content */}
               <div className="overflow-y-auto p-6 sm:p-8">
                 <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-6 pr-8">
                   {activeContent.title}

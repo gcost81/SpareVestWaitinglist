@@ -1,99 +1,239 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Coins, Shield, TrendingUp, ArrowRight, X } from 'lucide-react';
+import { Coins, Shield, TrendingUp, Check, X } from 'lucide-react';
 
 const features = [
   {
     icon: Coins,
     title: 'Automatic Roundups',
-    description: 'Every purchase gets rounded up...',
+    description: 'Every purchase gets rounded up to the nearest franc. The spare change goes straight into your investment portfolio.',
+    color: 'from-blue-500 to-blue-600',
+    bgColor: 'bg-blue-50',
+    borderColor: 'border-blue-100',
     modalId: 'roundups',
   },
   {
     icon: Shield,
     title: 'Swiss Security',
-    description: 'Bank-grade encryption...',
+    description: 'Bank-grade encryption, two-factor authentication, and Swiss data protection laws keep your wealth secure.',
+    color: 'from-emerald-500 to-teal-500',
+    bgColor: 'bg-emerald-50',
+    borderColor: 'border-emerald-100',
     modalId: 'security',
   },
   {
     icon: TrendingUp,
     title: 'Portfolio Growth',
-    description: 'Expert-curated ETF portfolios...',
+    description: 'Expert-curated ETF portfolios designed for long-term growth. Diversified across global markets.',
+    color: 'from-purple-500 to-indigo-500',
+    bgColor: 'bg-purple-50',
+    borderColor: 'border-purple-100',
     modalId: 'portfolio',
   },
 ];
 
+const modalContent = {
+  roundups: {
+    title: 'Round Up Your Purchases Automatically',
+    items: [
+      'Every time you buy coffee, groceries, or anything else, we round up to the nearest CHF',
+      'The spare change (e.g., CHF 0.45 from a CHF 8.55 coffee) goes straight into your investment portfolio',
+      'Set your own round-up rules: round to nearest CHF 1, 5, or 10 for faster growth',
+      'Watch your "spare change" grow into serious wealth without changing your spending habits',
+    ],
+  },
+  security: {
+    title: 'Bank-Grade Protection for Your Wealth',
+    items: [
+      '256-bit encryption: Same security standard used by Swiss banks',
+      'Two-factor authentication: Extra layer of protection for your account',
+      'Swiss data protection: Fully compliant with Swiss privacy laws (FADP)',
+      'Segregated accounts: Your investments are held separately from company assets',
+      'Regulated: Operating under Swiss financial regulations',
+    ],
+  },
+  portfolio: {
+    title: 'Expert-Curated Investment Portfolios',
+    items: [
+      'ETF-based portfolios: Diversified across thousands of stocks and bonds',
+      'Risk levels: Choose from Conservative, Balanced, or Growth based on your goals',
+      'Automatic rebalancing: We adjust your portfolio quarterly to maintain optimal allocation',
+      'Global diversification: Invest in Swiss, European, US, and emerging markets',
+      'Low fees: Keep more of your returns with our transparent pricing',
+    ],
+  },
+};
+
 export function Features() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const [showModal, setShowModal] = useState(false);
-  const [modalTitle, setModalTitle] = useState('');
+  const [activeModal, setActiveModal] = useState<string | null>(null);
 
-  const openModal = (id: string) => {
-    console.log('Button clicked! ID:', id); // This should appear in console
-    setModalTitle(id);
-    setShowModal(true);
+  const openModal = (modalId: string) => {
+    console.log('Opening modal:', modalId);
+    setActiveModal(modalId);
   };
 
   const closeModal = () => {
-    setShowModal(false);
+    setActiveModal(null);
   };
 
+  const activeContent = activeModal ? modalContent[activeModal as keyof typeof modalContent] : null;
+
   return (
-    <section id="features" ref={ref} className="relative py-24 overflow-hidden bg-slate-50">
+    <section id="features" ref={ref} className="relative py-24 lg:py-32 overflow-hidden bg-slate-50 dark:bg-slate-800/50 transition-colors duration-300">
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl" />
+      </div>
+
       <div className="relative z-10 px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="text-center max-w-3xl mx-auto mb-16 lg:mb-20"
+          >
+            <span className="text-sm font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-4 block">
+              Features
+            </span>
+            <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6">
+              Simple. Smart.{' '}
+              <span className="bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
+                Swiss.
+              </span>
+            </h2>
+            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+              Everything you need to grow your wealth, designed with Swiss precision and simplicity.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
                 initial={{ opacity: 0, y: 40 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-                className="p-8 rounded-2xl bg-white border border-slate-200 shadow-sm"
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.15,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+                whileHover={{ y: -4 }}
+                className={`group relative p-8 rounded-2xl ${feature.bgColor} dark:bg-slate-800 border ${feature.borderColor} dark:border-slate-700 transition-all duration-300 ease-out hover:shadow-xl hover:shadow-slate-900/5 dark:hover:shadow-slate-900/20`}
               >
-                <feature.icon className="w-8 h-8 text-blue-600 mb-4" />
-                <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                <p className="text-slate-600 mb-4">{feature.description}</p>
-                
-                {/* SIMPLE TEST BUTTON */}
-                <button
-                  onClick={() => openModal(feature.modalId)}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                <div
+                  className={`w-14 h-14 rounded-xl bg-gradient-to-r ${feature.color} flex items-center justify-center mb-6 shadow-lg transition-transform duration-300 group-hover:scale-110`}
                 >
-                  Click me: {feature.modalId}
+                  <feature.icon className="w-7 h-7 text-white" />
+                </div>
+
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                  {feature.description}
+                </p>
+
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openModal(feature.modalId);
+                  }}
+                  className="flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors cursor-pointer bg-transparent border-none outline-none"
+                >
+                  <span>Learn more →</span>
                 </button>
+
+                <div
+                  className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
+                />
               </motion.div>
             ))}
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="mt-16 lg:mt-20 text-center"
+          >
+            <motion.a
+              href="#waitlist"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-full shadow-lg shadow-slate-900/20 hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
+            >
+              <span>Join the waitlist →</span>
+            </motion.a>
+          </motion.div>
         </div>
       </div>
 
-      {/* SIMPLE DEBUG MODAL - No libraries, just CSS */}
-      {showModal && (
-        <div 
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-4"
-          onClick={closeModal}
-        >
+      {/* Simple Modal */}
+      {activeModal && activeContent && (
+        <>
           <div 
-            className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">Modal: {modalTitle}</h2>
-              <button onClick={closeModal} className="p-2 hover:bg-slate-100 rounded-full">
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            <p className="text-slate-600 mb-6">If you can see this, the modal works!</p>
-            <button 
-              onClick={closeModal}
-              className="w-full py-3 bg-slate-900 text-white rounded-lg"
+            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+            onClick={closeModal}
+          />
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 pointer-events-none">
+            <div 
+              className="pointer-events-auto w-full max-w-[600px] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col relative"
+              onClick={(e) => e.stopPropagation()}
             >
-              Close
-            </button>
+              <button
+                onClick={closeModal}
+                className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors z-10"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="overflow-y-auto p-6 sm:p-8">
+                <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-6 pr-8">
+                  {activeContent.title}
+                </h2>
+
+                <div className="space-y-3">
+                  {activeContent.items.map((item, index) => {
+                    const [itemTitle, ...itemDesc] = item.split(':');
+                    const description = itemDesc.join(':');
+                    
+                    return (
+                      <div key={index} className="flex items-start gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
+                        <div className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                        </div>
+                        <div className="flex-1">
+                          <span className="font-semibold text-slate-900 dark:text-white">
+                            {itemTitle}
+                          </span>
+                          {description && (
+                            <span className="text-slate-600 dark:text-slate-400 block mt-1 text-sm leading-relaxed">
+                              {description}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
+                  <button
+                    onClick={closeModal}
+                    className="w-full sm:w-auto px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
+                  >
+                    Got it
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </section>
   );

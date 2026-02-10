@@ -1,6 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Coins, Shield, TrendingUp, Check, X } from 'lucide-react';
+import { Coins, Shield, TrendingUp } from 'lucide-react';
 
 const features = [
   {
@@ -34,17 +34,13 @@ export function Features() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
-  // DEBUG: Log current state
-  console.log('Current modal state:', activeModal);
-
   const openModal = (modalId: string) => {
     console.log('CLICKED! Opening:', modalId);
-    alert('Button clicked! Opening: ' + modalId); // This will definitely show if click works
+    alert('Button clicked! Opening: ' + modalId);
     setActiveModal(modalId);
   };
 
   const closeModal = () => {
-    console.log('Closing modal');
     setActiveModal(null);
   };
 
@@ -53,7 +49,7 @@ export function Features() {
   return (
     <section id="features" ref={ref} className="relative py-24 bg-slate-50">
       
-      {/* DEBUG INDICATOR - This proves new code is deployed */}
+      {/* DEBUG INDICATOR */}
       <div className="fixed top-0 left-0 right-0 z-[9999] bg-red-600 text-white text-center py-2 text-sm font-bold">
         DEBUG: Modal State: {activeModal || 'null'} | Content: {activeContent ? 'YES' : 'NO'}
       </div>
@@ -72,7 +68,6 @@ export function Features() {
                 <feature.icon className="w-8 h-8 text-blue-600 mb-4" />
                 <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
                 
-                {/* BIG OBVIOUS BUTTON */}
                 <button
                   type="button"
                   onClick={() => openModal(feature.modalId)}
@@ -87,7 +82,7 @@ export function Features() {
         </div>
       </div>
 
-      {/* ULTRA SIMPLE MODAL - Red background so you can't miss it */}
+      {/* ULTRA SIMPLE MODAL */}
       {activeModal && (
         <div className="fixed inset-0 z-[10000] bg-red-500/90 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
@@ -104,5 +99,7 @@ export function Features() {
       )}
       
     </section>
+  );
+}
   );
 }

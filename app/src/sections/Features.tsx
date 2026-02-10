@@ -1,7 +1,8 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Coins, Shield, TrendingUp, ArrowRight, Check } from 'lucide-react';
-import { Modal } from '../components/Modal';
+import { Coins, Shield, TrendingUp, ArrowRight, Check, X } from 'lucide-react';
+import * as Dialog from '@radix-ui/react-dialog';
+import { useEffect } from 'react';
 
 const features = [
   {
@@ -64,6 +65,92 @@ const modalContent = {
     ],
   },
 };
+
+// Modal Component
+function Modal({ isOpen, onClose, title, children }: { 
+  isOpen: boolean; 
+  onClose: () => void; 
+  title: string; 
+  children: React.ReactNode 
+}) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  return (
+    <Dialog.Root open={isOpen} onOpenChange={onClose}>
+      <Dialog.Portal>
+        {/* Backdrop with blur */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+          onClick={onClose}
+        />
+        
+        {/* Modal Content */}
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 pointer-events-none">
+          <Dialog.Content 
+            className="pointer-events-auto w-full max-w-[600px] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+            asChild
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ 
+                duration: 0.3, 
+                ease: [0.25, 0.46, 0.45, 0.94] 
+              }}
+            >
+              {/* Close button */}
+              <button
+                onClick={onClose}
+                className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors z-10"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Scrollable content */}
+              <div className="overflow-y-auto p-6 sm:p-8">
+                {/* Title */}
+                <Dialog.Title className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-6 pr-8">
+                  {title}
+                </Dialog.Title>
+
+                {/* Content */}
+                <div className="max-w-none">
+                  {children}
+                </div>
+
+                {/* Close button at bottom */}
+                <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
+                  <button
+                    onClick={onClose}
+                    className="w-full sm:w-auto px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors flex items-center justify-center gap-2"
+                  >
+                    <span>Got it</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </Dialog.Content>
+        </div>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
 
 export function Features() {
   const ref = useRef<HTMLDivElement>(null);
@@ -142,10 +229,10 @@ export function Features() {
                 </p>
 
                 {/* Learn More Link */}
-              <button
-  onClick={() => openModal(feature.modalId)}
-  className="flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
->
+                <button
+                  onClick={() => openModal(feature.modalId)}
+                  className="flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors cursor-pointer"
+                >
                   <span>Learn more</span>
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </button>
@@ -185,16 +272,30 @@ export function Features() {
         title={activeContent?.title || ''}
       >
         {activeContent && (
-          <ul className="space-y-4">
-            {activeContent.items.map((item, index) => (
-              <li key={index} className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+          <div className="space-y-3">
+            {activeContent.items.map((item, index) => {
+              const [itemTitle, ...itemDesc] = item.split(':');
+              const description = itemDesc.join(':');
+              
+              return (
+                <div key={index} className="flex items-start gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
+                  <div className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                  <div className="flex-1">
+                    <span className="font-semibold text-slate-900 dark:text-white">
+                      {itemTitle}
+                    </span>
+                    {description && (
+                      <span className="text-slate-600 dark:text-slate-400 block mt-1 text-sm leading-relaxed">
+                        {description}
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <span className="text-slate-700 dark:text-slate-300">{item}</span>
-              </li>
-            ))}
-          </ul>
+              );
+            })}
+          </div>
         )}
       </Modal>
     </section>

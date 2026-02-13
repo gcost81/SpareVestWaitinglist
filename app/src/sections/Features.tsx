@@ -69,10 +69,9 @@ export function Features() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
-const openModal = (modalId: string) => {
-  alert('CLICKED: ' + modalId); // Temporary test
-  setActiveModal(modalId);
-};
+  const openModal = (modalId: string) => {
+    setActiveModal(modalId);
+  };
 
   const closeModal = () => {
     setActiveModal(null);
@@ -145,8 +144,9 @@ const openModal = (modalId: string) => {
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </button>
 
+                {/* THE FIX: Added pointer-events-none so clicks pass through */}
                 <div
-                  className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
+                  className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300 pointer-events-none`}
                 />
               </motion.div>
             ))}

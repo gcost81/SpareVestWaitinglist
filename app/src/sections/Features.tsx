@@ -38,7 +38,7 @@ const modalContent = {
     items: [
       'Every time you buy coffee, groceries, or anything else, we round up to the nearest CHF',
       'The spare change (e.g., CHF 0.45 from a CHF 8.55 coffee) goes straight into your investment portfolio',
-      'Set your own round-up rules: round to nearest CHF 1, 5, or 10 for faster growth',
+      'Set your own round-up rules: Choose between standard rounding to the nearest CHF, or boosted rounding with an extra CHF 1 added',
       'Watch your "spare change" grow into serious wealth without changing your spending habits',
     ],
   },

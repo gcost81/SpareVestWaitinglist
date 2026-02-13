@@ -69,9 +69,10 @@ export function Features() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
-  const openModal = (modalId: string) => {
-    setActiveModal(modalId);
-  };
+const openModal = (modalId: string) => {
+  alert('CLICKED: ' + modalId); // Temporary test
+  setActiveModal(modalId);
+};
 
   const closeModal = () => {
     setActiveModal(null);

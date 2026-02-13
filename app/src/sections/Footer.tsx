@@ -26,7 +26,7 @@ export function Footer() {
                 <img 
                   src="/logo.png" 
                   alt="SpareVest" 
-                  className="h-20 w-auto object-contain"
+                  className="h-24 w-auto object-contain"
                 />
               </a>
               <p className="text-slate-600 dark:text-slate-400 max-w-sm leading-relaxed">

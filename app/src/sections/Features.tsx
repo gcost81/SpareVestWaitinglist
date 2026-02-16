@@ -48,7 +48,7 @@ const modalContent = {
       '256-bit encryption: Same security standard used by Swiss banks',
       'Two-factor authentication: Extra layer of protection for your account',
       'Swiss data protection: Fully compliant with Swiss privacy laws (FADP)',
-      'Segregated accounts: Your investments are held separately from company assets',
+      'Deposit protection: Your cash deposits are protected up to CHF 100,000',
       'Regulated: Operating under Swiss financial regulations',
     ],
   },
@@ -57,7 +57,7 @@ const modalContent = {
     items: [
       'ETF-based portfolios: Diversified across thousands of stocks and bonds',
       'Risk levels: Choose from Conservative, Balanced, or Growth based on your goals',
-      'Automatic rebalancing: We adjust your portfolio quarterly to maintain optimal allocation',
+      'Curated selection: Each profile contains hand-picked assets specifically chosen for Conservative, Balanced, or Growth investors',
       'Global diversification: Invest in Swiss, European, US, and emerging markets',
       'Low fees: Keep more of your returns with our transparent pricing',
     ],
